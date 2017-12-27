@@ -7,6 +7,10 @@ import { ExplorerComponent } from './explorer.component';
     RouterModule.forChild([
       {
         path: '',
+        redirectTo: '/explorer',
+        pathMatch: 'full'
+      }, {
+        path: 'explorer',
         component: ExplorerComponent
       }
     ])

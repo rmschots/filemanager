@@ -9,6 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import 'rxjs/add/operator/takeUntil';
+
 const MATERIAL_IMPORTS = [
   MatToolbarModule,
   MatButtonModule,
