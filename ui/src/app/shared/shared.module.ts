@@ -8,20 +8,29 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FileService } from './restservices/file.service';
+import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material';
+
 
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/finally';
+import { FileSizePipe } from './pipes/file-size.pipe';
 
 const MATERIAL_IMPORTS = [
   MatToolbarModule,
   MatButtonModule,
   MatIconModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule
 ];
 
 const MODULES = [
   CommonModule,
   RouterModule,
   FormsModule,
+  HttpClientModule,
   FlexLayoutModule,
   ...MATERIAL_IMPORTS
 ];
@@ -30,7 +39,13 @@ const COMPONENTS = [
   NavbarComponent
 ];
 
-const SERVICES = [];
+const SERVICES = [
+  FileService
+];
+
+const PIPES = [
+  FileSizePipe
+];
 
 @NgModule({
   imports: [
@@ -39,10 +54,11 @@ const SERVICES = [];
   exports: [
     ...MODULES,
     ...COMPONENTS,
-    ...SERVICES
+    ...PIPES
   ],
   declarations: [
-    ...COMPONENTS
+    ...COMPONENTS,
+    ...PIPES
   ]
 })
 export class SharedModule {

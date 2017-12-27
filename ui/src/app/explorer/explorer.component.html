@@ -1,12 +1,54 @@
-<h5>
-  <span *ngFor="let parentDir of parentDirs">/{{parentDir}}</span>
-</h5>
-<button mat-button (click)="goUpDirectory()">Go up</button>
-<mat-nav-list class="mat-elevation-z2">
-  <h3 mat-subheader>Folders</h3>
-  <mat-list-item *ngFor="let folder of folders" (click)="enterDirectory(folder)">
-    <mat-icon mat-list-icon>folder</mat-icon>
-    <h4 mat-line>{{folder.name}}</h4>
-    <p mat-line> {{folder.updated | date}} </p>
-  </mat-list-item>
-</mat-nav-list>
+<div class="mat-elevation-z2">
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button (click)="navigateDir(-1)">
+        <mat-icon aria-label="Home">home</mat-icon>
+      </button>
+      <ul class="breadcrumb">
+        <li></li>
+        <li *ngFor="let parent of parentDirs; index as i">
+          <span *ngIf="i < parentDirs.length-1; else noLink" (click)="navigateDir(i)">
+            {{ parent }}
+          </span>
+          <ng-template #noLink>
+            {{ parent }}
+          </ng-template>
+        </li>
+      </ul>
+      <span class="spacer"></span>
+      <mat-progress-spinner *ngIf="isRefreshing$ | async" mode="indeterminate" color="accent"
+                            [diameter]="24"></mat-progress-spinner>
+      <button mat-icon-button>
+        <mat-icon aria-label="Upload">file_upload</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-nav-list>
+    <mat-list-item *ngFor="let folder of files$ | async" (click)="folder.isDirectory?enterDirectory(folder):null">
+      <mat-icon mat-list-icon>{{folder.isDirectory?'folder':'insert_drive_file'}}</mat-icon>
+      <div mat-line *ngIf="folder.isDirectory; else dataFileRow">
+        <div class="file-flex-row">
+          <span>
+            {{folder.filename}}
+          </span>
+          <span class="spacer"></span>
+          <span>{{folder.size | fileSize}}</span>
+          <span>{{folder.created | date }}</span>
+          <span>{{folder.modified | date }}</span>
+        </div>
+      </div>
+      <ng-template #dataFileRow>
+        <div class="file-flex-row">
+          <span>
+            {{folder.filename}}
+          </span>
+          <span class="spacer"></span>
+          <span>{{folder.size | fileSize}}</span>
+          <span>{{folder.created | date }}</span>
+          <span>{{folder.modified | date }}</span>
+        </div>
+      </ng-template>
+    </mat-list-item>
+  </mat-nav-list>
+</div>
+

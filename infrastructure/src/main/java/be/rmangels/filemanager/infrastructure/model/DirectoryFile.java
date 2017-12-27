@@ -2,22 +2,19 @@ package be.rmangels.filemanager.infrastructure.model;
 
 import lombok.Getter;
 
-import java.time.OffsetDateTime;
-
 @Getter
-public class DataFile extends ManagedFile {
+public class DirectoryFile extends ManagedFile {
 
-
-    private DataFile() {
+    private DirectoryFile() {
         super();
     }
 
     @Override
     public boolean isDirectory() {
-        return false;
+        return true;
     }
 
-    public static class Builder extends ManagedFile.Builder<Builder, DataFile> {
+    public static class Builder extends ManagedFile.Builder<Builder, DirectoryFile> {
 
         public static Builder of() {
             return new Builder();
@@ -27,8 +24,8 @@ public class DataFile extends ManagedFile {
         }
 
         @Override
-        protected DataFile createInstance() {
-            return new DataFile();
+        protected DirectoryFile createInstance() {
+            return new DirectoryFile();
         }
     }
 }

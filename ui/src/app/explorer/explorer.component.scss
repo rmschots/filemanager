@@ -1,0 +1,79 @@
+@import '../../scheme';
+
+mat-toolbar {
+  background: $app-header-background;
+
+  li {
+    display: inline;
+    font-size: 18px;
+
+    span {
+      color: $app-link;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    span:hover {
+      color: $app-link-hover;
+    }
+
+    + li:before {
+      content: '/\00a0';
+      padding: 2px;
+    }
+
+    button {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  mat-icon {
+    color: $app-link;
+    font-size: 26px;
+    text-decoration: none;
+  }
+
+  mat-icon:hover {
+    color: $app-link-hover;
+  }
+
+  ul.breadcrumb {
+    list-style: none;
+    overflow: hidden;
+    padding: 10px 16px;
+  }
+}
+
+mat-nav-list {
+  padding-top: 0;
+}
+
+mat-list-item {
+  background: $app-body-background;
+}
+
+mat-progress-spinner {
+  height: 24px;
+  width: 24px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.file-flex-row {
+  display: flex;
+
+  :nth-child(3) {
+    width: 100px;
+  }
+
+  :nth-child(4) {
+    width: 100px;
+  }
+
+  :nth-child(5) {
+    width: 100px;
+  }
+}

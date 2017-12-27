@@ -74,3 +74,4 @@ yarn-error.log
 # Project #
 ###########
 application-prod.properties
+uploads/

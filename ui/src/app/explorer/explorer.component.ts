@@ -1,26 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { DataFile } from '../shared/models/data-file';
+import { ManagedFile } from '../shared/models/managed-file';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscribable } from '../shared/util/unsubscribable';
+import { FileService } from '../shared/restservices/file.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-explorer',
   templateUrl: './explorer.component.html',
-  styleUrls: ['./explorer.component.css']
+  styleUrls: ['./explorer.component.scss']
 })
 export class ExplorerComponent extends Unsubscribable implements OnInit {
 
   parentDirs: string[] = [];
-  folders: DataFile[] = [];
 
-  constructor(private route: ActivatedRoute,
-              private router: Router) {
+  files$: BehaviorSubject<ManagedFile[]> = new BehaviorSubject<ManagedFile[]>([]);
+  isRefreshing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  constructor(private _route: ActivatedRoute,
+              private _router: Router,
+              private _fileService: FileService) {
     super();
   }
 
   ngOnInit() {
     console.log('init');
-    this.route
+    this._route
       .params
       .takeUntil(this.ngUnsubscribe$)
       .subscribe(params => {
@@ -30,17 +36,26 @@ export class ExplorerComponent extends Unsubscribable implements OnInit {
         } else {
           this.parentDirs = [];
         }
+        this.loadFiles();
       });
-    this.folders.push(new DataFile('test', new Date(), 'author'));
-    this.folders.push(new DataFile('test2', new Date(), 'author2'));
-    this.folders.push(new DataFile('test3', new Date(), 'author3'));
   }
 
-  enterDirectory(directory: DataFile) {
-    this.router.navigate(['.', { dir: JSON.stringify([...this.parentDirs, directory.name]) }]);
+  enterDirectory(directory: ManagedFile) {
+    this._router.navigate(['.', {dir: JSON.stringify([...this.parentDirs, directory.filename])}]);
   }
 
-  goUpDirectory() {
-    this.router.navigate(['.', { dir: JSON.stringify(this.parentDirs.slice(0, this.parentDirs.length - 1)) }]);
+  navigateDir(dirIndex: number) {
+    this._router.navigate(['.', {dir: JSON.stringify(this.parentDirs.slice(0, dirIndex + 1))}]);
+  }
+
+  private loadFiles() {
+    this.isRefreshing$.next(true);
+    this.files$.next([]);
+    this._fileService.findAllFilesInDirectory(this.parentDirs)
+      .takeUntil(this.ngUnsubscribe$)
+      .finally(() => this.isRefreshing$.next(false))
+      .subscribe((results: ManagedFile[]) => {
+        this.files$.next(results);
+      });
   }
 }

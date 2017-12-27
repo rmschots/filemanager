@@ -1,9 +1,10 @@
 package be.rmangels.filemanager.api;
 
-import be.rmangels.filemanager.api.dto.DataFileDto;
-import be.rmangels.filemanager.api.mapper.DataFileDtoMapper;
+import be.rmangels.filemanager.api.dto.FileDto;
+import be.rmangels.filemanager.api.mapper.FileDtoMapper;
+import be.rmangels.filemanager.infrastructure.config.ApplicationProperties;
 import be.rmangels.filemanager.infrastructure.util.FileManagerException;
-import be.rmangels.filemanager.service.DataFileService;
+import be.rmangels.filemanager.service.FileService;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,25 +18,39 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static be.rmangels.filemanager.api.FileResource.FILE_RESOURCE_URL;
+import static be.rmangels.filemanager.api.dto.FileDto.COMPARE_BY_DIRECTORY_AND_NAME;
 import static com.google.common.collect.Lists.newArrayList;
 
 @RestController
-@RequestMapping("/api/datafiles")
-public class DataFileResource {
+@RequestMapping(FILE_RESOURCE_URL)
+public class FileResource {
 
-    private static final Logger LOGGER = Logger.getLogger(DataFileResource.class);
-
-    private static final String UPLOADED_FOLDER = "uploads/";
-    @Inject
-    private DataFileService dataFileService;
+    private static final Logger LOGGER = Logger.getLogger(FileResource.class);
+    static final String FILE_RESOURCE_URL = "/api/files";
 
     @Inject
-    private DataFileDtoMapper dataFileDtoMapper;
+    private ApplicationProperties applicationProperties;
+
+    @Inject
+    private FileService fileService;
+
+    @Inject
+    private FileDtoMapper fileDtoMapper;
 
     @GetMapping
-    public List<DataFileDto> getAllDataFiles() {
-        return dataFileService.findAll().stream()
-                .map(dataFileDtoMapper::mapToDataFileDto)
+    public List<FileDto> getAllFiles() {
+        return fileService.findAllInDirectory(newArrayList()).stream()
+                .map(fileDtoMapper::mapToDataFileDto)
+                .sorted(COMPARE_BY_DIRECTORY_AND_NAME)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("{directoryStructure}")
+    public List<FileDto> getFilesInDirectory(@PathVariable List<String> directoryStructure) {
+        return fileService.findAllInDirectory(directoryStructure).stream()
+                .map(fileDtoMapper::mapToDataFileDto)
+                .sorted(COMPARE_BY_DIRECTORY_AND_NAME)
                 .collect(Collectors.toList());
     }
 
@@ -59,11 +74,11 @@ public class DataFileResource {
                     byte[] bytes;
                     try {
                         bytes = file.getBytes();
-                        Path parentDir = Paths.get(UPLOADED_FOLDER);
+                        Path parentDir = Paths.get(applicationProperties.getStorageFolder());
                         if (!parentDir.toFile().exists()) {
                             Files.createDirectories(parentDir);
                         }
-                        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+                        Path path = Paths.get(applicationProperties.getStorageFolder() + file.getOriginalFilename());
                         Files.write(path, bytes);
                     } catch (IOException e) {
                         LOGGER.error("IOException when uploading file", e);
