@@ -65,15 +65,11 @@ mat-progress-spinner {
 .file-flex-row {
   display: flex;
 
-  :nth-child(3) {
+  .file-size {
     width: 100px;
   }
 
-  :nth-child(4) {
-    width: 100px;
-  }
-
-  :nth-child(5) {
+  .file-date {
     width: 100px;
   }
 }

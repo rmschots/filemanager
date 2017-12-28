@@ -10,33 +10,46 @@ import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FileService } from './restservices/file.service';
 import { HttpClientModule } from '@angular/common/http';
-import { MatProgressSpinnerModule } from '@angular/material';
+import { MatDialogModule, MatProgressBarModule, MatProgressSpinnerModule } from '@angular/material';
+import { FileSizePipe } from './pipes/file-size.pipe';
+import { DownloadConfirmComponent } from './components/download-confirm/download-confirm.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UploadFileComponent } from './components/upload-file/upload-file.component';
 
 
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/finally';
-import { FileSizePipe } from './pipes/file-size.pipe';
+import 'rxjs/add/operator/combineLatest';
 
 const MATERIAL_IMPORTS = [
   MatToolbarModule,
   MatButtonModule,
   MatIconModule,
   MatListModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatDialogModule,
+  MatProgressBarModule
 ];
 
 const MODULES = [
   CommonModule,
   RouterModule,
+  BrowserAnimationsModule,
   FormsModule,
   HttpClientModule,
   FlexLayoutModule,
   ...MATERIAL_IMPORTS
 ];
 
+const MODALS = [
+  DownloadConfirmComponent,
+  UploadFileComponent
+];
+
 const COMPONENTS = [
-  NavbarComponent
+  NavbarComponent,
+  ...MODALS
 ];
 
 const SERVICES = [
@@ -59,6 +72,9 @@ const PIPES = [
   declarations: [
     ...COMPONENTS,
     ...PIPES
+  ],
+  entryComponents: [
+    MODALS
   ]
 })
 export class SharedModule {

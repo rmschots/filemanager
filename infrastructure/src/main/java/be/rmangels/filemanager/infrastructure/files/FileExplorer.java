@@ -3,15 +3,14 @@ package be.rmangels.filemanager.infrastructure.files;
 import be.rmangels.filemanager.infrastructure.config.ApplicationProperties;
 import be.rmangels.filemanager.infrastructure.model.DataFile;
 import be.rmangels.filemanager.infrastructure.model.DirectoryFile;
+import be.rmangels.filemanager.infrastructure.model.FileContent;
 import be.rmangels.filemanager.infrastructure.model.ManagedFile;
 import be.rmangels.filemanager.infrastructure.util.FileManagerException;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +24,34 @@ public class FileExplorer {
 
     @Inject
     private ApplicationProperties applicationProperties;
+
+    public List<ManagedFile> findFilesInDirectory(List<String> directoryStructure) {
+        Path currentPath = getPathForDirectoryStructure(directoryStructure);
+        try (Stream<Path> paths = Files.list(currentPath)) {
+            return paths.map(this::mapPathToManagedFile)
+                    .collect(toList());
+        } catch (IOException e) {
+            throw FileManagerException.of("Error reading files from " + directoryStructure.stream().collect(Collectors.joining("/")), e);
+        }
+    }
+
+    private Path getPathForDirectoryStructure(List<String> directoryStructure) {
+        return Paths.get(
+                applicationProperties.getStorageFolder(),
+                directoryStructure.toArray(new String[directoryStructure.size()])
+        );
+    }
+
+    public void saveFile(List<String> directoryStructure, FileContent fileContent) {
+        Path directory = getPathForDirectoryStructure(directoryStructure);
+        Path destinationPath = directory.resolve(fileContent.getFilename());
+        try {
+            Files.copy(fileContent.getData(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw FileManagerException.of("Could not write file " + destinationPath.getFileName().toString(), e);
+        }
+
+    }
 
     private ManagedFile mapPathToManagedFile(Path file) {
         BasicFileAttributes attr;
@@ -45,19 +72,6 @@ public class FileExplorer {
                     .withModified(attr.lastModifiedTime().toInstant().atOffset(UTC))
                     .withFilename(file.getFileName().toString())
                     .build();
-        }
-    }
-
-    public List<ManagedFile> findFilesInDirectory(List<String> directoryStructure) {
-        Path currentPath = Paths.get(
-                applicationProperties.getStorageFolder(),
-                directoryStructure.toArray(new String[directoryStructure.size()])
-        );
-        try (Stream<Path> paths = Files.list(currentPath)) {
-            return paths.map(this::mapPathToManagedFile)
-                    .collect(toList());
-        } catch (IOException e) {
-            throw FileManagerException.of("Error reading files from " + directoryStructure.stream().collect(Collectors.joining("/")), e);
         }
     }
 

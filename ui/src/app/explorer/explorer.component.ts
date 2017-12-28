@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscribable } from '../shared/util/unsubscribable';
 import { FileService } from '../shared/restservices/file.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { DownloadConfirmComponent } from '../shared/components/download-confirm/download-confirm.component';
+import { UploadFileComponent } from '../shared/components/upload-file/upload-file.component';
 
 @Component({
   selector: 'app-explorer',
@@ -20,12 +22,12 @@ export class ExplorerComponent extends Unsubscribable implements OnInit {
 
   constructor(private _route: ActivatedRoute,
               private _router: Router,
-              private _fileService: FileService) {
+              private _fileService: FileService,
+              private _dialog: MatDialog) {
     super();
   }
 
   ngOnInit() {
-    console.log('init');
     this._route
       .params
       .takeUntil(this.ngUnsubscribe$)
@@ -46,6 +48,33 @@ export class ExplorerComponent extends Unsubscribable implements OnInit {
 
   navigateDir(dirIndex: number) {
     this._router.navigate(['.', {dir: JSON.stringify(this.parentDirs.slice(0, dirIndex + 1))}]);
+  }
+
+  openDownloadDialog(dataFile: ManagedFile) {
+    const dialogRef = this._dialog.open(DownloadConfirmComponent, {
+      data: {
+        path: this.parentDirs,
+        file: dataFile
+      },
+    });
+    dialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe$)
+      .subscribe(result => console.log(`Dialog result: ${result}`));
+  }
+
+  openUploadDialog() {
+    const dialogRef = this._dialog.open(UploadFileComponent, {
+      data: {
+        path: this.parentDirs
+      },
+    });
+    dialogRef.afterClosed()
+      .takeUntil(this.ngUnsubscribe$)
+      .subscribe((shouldRefresh: boolean) => {
+        if (shouldRefresh) {
+          this.loadFiles();
+        }
+      });
   }
 
   private loadFiles() {

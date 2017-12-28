@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@PropertySource({"file:application.properties","classpath:application-${envTarget:dev}.properties"})
+@PropertySource(value = {"file:application.properties", "classpath:application-${envTarget:dev}.properties"}, ignoreResourceNotFound = true)
 @ComponentScan({"be.rmangels.filemanager"})
 @EnableAsync
 @EnableScheduling

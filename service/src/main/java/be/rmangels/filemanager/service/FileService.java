@@ -2,6 +2,7 @@ package be.rmangels.filemanager.service;
 
 import be.rmangels.filemanager.infrastructure.files.FileExplorer;
 import be.rmangels.filemanager.infrastructure.model.DataFile;
+import be.rmangels.filemanager.infrastructure.model.FileContent;
 import be.rmangels.filemanager.infrastructure.model.ManagedFile;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,9 @@ public class FileService {
 
     public List<ManagedFile> findAllInDirectory(List<String> directoryStructure) {
         return fileExplorer.findFilesInDirectory(directoryStructure);
+    }
+
+    public void saveFile(List<String> directoryStructure, FileContent uploadfile) {
+        fileExplorer.saveFile(directoryStructure, uploadfile);
     }
 }

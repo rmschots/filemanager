@@ -18,13 +18,14 @@
       <span class="spacer"></span>
       <mat-progress-spinner *ngIf="isRefreshing$ | async" mode="indeterminate" color="accent"
                             [diameter]="24"></mat-progress-spinner>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openUploadDialog()">
         <mat-icon aria-label="Upload">file_upload</mat-icon>
       </button>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-nav-list>
-    <mat-list-item *ngFor="let folder of files$ | async" (click)="folder.isDirectory?enterDirectory(folder):null">
+    <mat-list-item *ngFor="let folder of files$ | async"
+                   (click)="folder.isDirectory?enterDirectory(folder):openDownloadDialog(folder)">
       <mat-icon mat-list-icon>{{folder.isDirectory?'folder':'insert_drive_file'}}</mat-icon>
       <div mat-line *ngIf="folder.isDirectory; else dataFileRow">
         <div class="file-flex-row">
@@ -32,9 +33,9 @@
             {{folder.filename}}
           </span>
           <span class="spacer"></span>
-          <span>{{folder.size | fileSize}}</span>
-          <span>{{folder.created | date }}</span>
-          <span>{{folder.modified | date }}</span>
+          <span class="file-size">{{folder.size | fileSize}}</span>
+          <span class="file-date">{{folder.created | date }}</span>
+          <span class="file-date">{{folder.modified | date }}</span>
         </div>
       </div>
       <ng-template #dataFileRow>
@@ -43,9 +44,9 @@
             {{folder.filename}}
           </span>
           <span class="spacer"></span>
-          <span>{{folder.size | fileSize}}</span>
-          <span>{{folder.created | date }}</span>
-          <span>{{folder.modified | date }}</span>
+          <span class="file-size">{{folder.size | fileSize}}</span>
+          <span class="file-date">{{folder.created | date }}</span>
+          <span class="file-date">{{folder.modified | date }}</span>
         </div>
       </ng-template>
     </mat-list-item>
