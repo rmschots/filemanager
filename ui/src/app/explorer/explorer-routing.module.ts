@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LoggedInGuard } from '../shared/guards/logged-in.guard';
 import { ExplorerComponent } from './explorer.component';
 
 @NgModule({
   imports: [
     RouterModule.forChild([
       {
-        path: '',
-        redirectTo: '/explorer',
-        pathMatch: 'full'
-      }, {
         path: 'explorer',
-        component: ExplorerComponent
+        component: ExplorerComponent,
+        canActivate: [LoggedInGuard]
       }
     ])
   ],

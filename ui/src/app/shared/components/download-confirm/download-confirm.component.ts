@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FileService } from '../../restservices/file.service';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'fm-download-confirm',

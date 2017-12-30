@@ -1,0 +1,31 @@
+@import '../../scheme';
+
+$google-color: #dc4d28;
+$facebook-color: #3b5998;
+
+h1 {
+  text-align: center;
+}
+
+.btn-connect-option {
+  border-radius: 2px;
+  color: $white;
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  height: 30px;
+  line-height: 32px;
+  margin: auto auto 16px;
+  padding: 15px 15px 15px 60px;
+  text-align: center;
+  text-decoration: none;
+  width: 145px;
+
+  &.google-plus {
+    background: $google-color url('/assets/btn-connect-option.png') no-repeat 0 -60px;
+  }
+
+  &.facebook {
+    background: $facebook-color url('/assets/btn-connect-option.png') no-repeat;
+  }
+}

@@ -1,8 +1,7 @@
-package be.rmangels.filemanager.api.dto;
+package be.rmangels.filemanager.api.file.dto;
 
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.Comparator;

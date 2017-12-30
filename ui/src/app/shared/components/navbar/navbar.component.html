@@ -4,4 +4,10 @@
     <mat-icon>cloud</mat-icon>
     <span class="home-text">File Manager</span>
   </a>
+  <span class="spacer"></span>
+  <div *ngIf="isLoggedIn$ | async" class="user-info">
+    <span>{{(user$|async)?.fullname}}</span>
+    <img *ngIf="(user$|async)?.picture; let picture" [src]="picture">
+  </div>
 </nav>
+

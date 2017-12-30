@@ -1,6 +1,6 @@
-package be.rmangels.filemanager.api.mapper;
+package be.rmangels.filemanager.api.file.mapper;
 
-import be.rmangels.filemanager.api.dto.FileDto;
+import be.rmangels.filemanager.api.file.dto.FileDto;
 import be.rmangels.filemanager.infrastructure.model.ManagedFile;
 
 import javax.inject.Named;

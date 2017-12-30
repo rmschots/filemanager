@@ -1,6 +1,6 @@
 package be.rmangels.filemanager.infrastructure.files;
 
-import be.rmangels.filemanager.infrastructure.config.ApplicationProperties;
+import be.rmangels.filemanager.config.ApplicationProperties;
 import be.rmangels.filemanager.infrastructure.model.DataFile;
 import be.rmangels.filemanager.infrastructure.model.DirectoryFile;
 import be.rmangels.filemanager.infrastructure.model.FileContent;

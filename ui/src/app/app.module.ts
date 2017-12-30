@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { ExplorerModule } from './explorer/explorer.module';
+import { LoginModule } from './login/login.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ExplorerModule } from './explorer/explorer.module';
     BrowserModule,
     AppRoutingModule,
     SharedModule.forRoot(),
-    ExplorerModule
+    ExplorerModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]

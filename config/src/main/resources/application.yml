@@ -1,0 +1,32 @@
+server.port: 8085
+storage.folder: /home/filemanager/uploads/
+
+spring:
+  jackson.serialization.write_dates_as_timestamps: false
+  http.multipart:
+    max-file-size: 3000MB
+    max-request-size: 3000MB
+  mvc.favicon.enabled: false
+
+facebook:
+  client:
+    clientId: 1960003074269081
+    clientSecret: 6b2c4a6613c7d0f727dd30924ea21c4b
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://graph.facebook.com/me
+
+google:
+  client:
+    clientId: 326168790386-kna7rq5sml22ac5pnojl402bricsjn9o.apps.googleusercontent.com
+    clientSecret: xInwEErjRPVVJ8QJcUIksDwm
+    accessTokenUri: https://accounts.google.com/o/oauth2/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+    clientAuthenticationScheme: form
+    scope: profile email
+  resource:
+    userInfoUri:  https://www.googleapis.com/oauth2/v3/userinfo

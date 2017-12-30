@@ -10,6 +10,9 @@
         <module>infrastructure</module>
         <module>jar</module>
         <module>api</module>
+        <module>security</module>
+        <module>config</module>
+        <module>test-config</module>
     </modules>
 
     <parent>
@@ -62,6 +65,22 @@
                 <groupId>be.rmangels.filemanager</groupId>
                 <artifactId>ui</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>be.rmangels.filemanager</groupId>
+                <artifactId>security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>be.rmangels.filemanager</groupId>
+                <artifactId>config</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>be.rmangels.filemanager</groupId>
+                <artifactId>test-config</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>

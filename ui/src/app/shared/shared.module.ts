@@ -8,19 +8,25 @@ import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FileService } from './restservices/file.service';
+import { FileService } from './services/file.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule, MatProgressBarModule, MatProgressSpinnerModule } from '@angular/material';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { DownloadConfirmComponent } from './components/download-confirm/download-confirm.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
+import { LoggedInGuard } from './guards/logged-in.guard';
 
 
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/combineLatest';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/switchMap';
+import { UserService } from './services/user.service';
 
 const MATERIAL_IMPORTS = [
   MatToolbarModule,
@@ -53,11 +59,16 @@ const COMPONENTS = [
 ];
 
 const SERVICES = [
-  FileService
+  FileService,
+  UserService
 ];
 
 const PIPES = [
   FileSizePipe
+];
+
+const GUARDS = [
+  LoggedInGuard
 ];
 
 @NgModule({
@@ -81,7 +92,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [...SERVICES]
+      providers: [...SERVICES, ...GUARDS]
     };
   }
 }

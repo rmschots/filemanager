@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ManagedFile } from '../shared/models/managed-file';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Unsubscribable } from '../shared/util/unsubscribable';
-import { FileService } from '../shared/restservices/file.service';
+import { FileService } from '../shared/services/file.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatDialog } from '@angular/material';
 import { DownloadConfirmComponent } from '../shared/components/download-confirm/download-confirm.component';

@@ -1,4 +1,4 @@
-package be.rmangels.filemanager.infrastructure.config;
+package be.rmangels.filemanager.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,4 +11,7 @@ public class ApplicationProperties {
 
     @Value("${storage.folder}")
     private String storageFolder;
+
+    @Value("${google.client.clientId}")
+    private String clientId;
 }

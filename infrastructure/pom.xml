@@ -13,6 +13,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>be.rmangels.filemanager</groupId>
+            <artifactId>config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>be.rmangels.filemanager</groupId>
+            <artifactId>test-config</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>

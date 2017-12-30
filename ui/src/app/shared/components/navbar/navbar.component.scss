@@ -24,3 +24,16 @@ nav {
   font-size: 15pt;
   margin-left: 8px;
 }
+
+.user-info {
+  align-items: center;
+  display: flex;
+
+  span {
+    padding-right: 8px;
+  }
+
+  img {
+    height: 24px;
+  }
+}

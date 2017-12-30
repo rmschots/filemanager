@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FileService } from '../../restservices/file.service';
+import { FileService } from '../../services/file.service';
 import { DownloadConfirmComponent } from '../download-confirm/download-confirm.component';
 import { Unsubscribable } from '../../util/unsubscribable';
 import { HttpEventType, HttpResponse } from '@angular/common/http';

@@ -1,8 +1,8 @@
-package be.rmangels.filemanager.api;
+package be.rmangels.filemanager.api.file;
 
-import be.rmangels.filemanager.api.dto.FileDto;
-import be.rmangels.filemanager.api.mapper.FileDtoMapper;
-import be.rmangels.filemanager.infrastructure.config.ApplicationProperties;
+import be.rmangels.filemanager.api.file.dto.FileDto;
+import be.rmangels.filemanager.api.file.mapper.FileDtoMapper;
+import be.rmangels.filemanager.config.ApplicationProperties;
 import be.rmangels.filemanager.infrastructure.model.FileContent;
 import be.rmangels.filemanager.service.FileService;
 import org.apache.log4j.Logger;
@@ -21,8 +21,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static be.rmangels.filemanager.api.FileResource.FILE_RESOURCE_URL;
-import static be.rmangels.filemanager.api.dto.FileDto.COMPARE_BY_DIRECTORY_AND_NAME;
+import static be.rmangels.filemanager.api.file.FileResource.FILE_RESOURCE_URL;
 import static com.google.common.collect.Lists.newArrayList;
 
 @RestController
@@ -45,7 +44,7 @@ public class FileResource {
     public List<FileDto> getAllFiles() {
         return fileService.findAllInDirectory(newArrayList()).stream()
                 .map(fileDtoMapper::mapToDataFileDto)
-                .sorted(COMPARE_BY_DIRECTORY_AND_NAME)
+                .sorted(FileDto.COMPARE_BY_DIRECTORY_AND_NAME)
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +52,7 @@ public class FileResource {
     public List<FileDto> getFilesInDirectory(@PathVariable List<String> directoryStructure) {
         return fileService.findAllInDirectory(directoryStructure).stream()
                 .map(fileDtoMapper::mapToDataFileDto)
-                .sorted(COMPARE_BY_DIRECTORY_AND_NAME)
+                .sorted(FileDto.COMPARE_BY_DIRECTORY_AND_NAME)
                 .collect(Collectors.toList());
     }
 
