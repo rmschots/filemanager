@@ -1,1 +1,2 @@
 storage.folder: F:/storage
+login.success.redirect.url: http://localhost:4200

@@ -14,4 +14,7 @@ public class ApplicationProperties {
 
     @Value("${google.client.clientId}")
     private String clientId;
+
+    @Value("${login.success.redirect.url}")
+    private String loginSuccessRedirectUrl;
 }
