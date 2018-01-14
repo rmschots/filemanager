@@ -1,0 +1,14 @@
+description = ''
+dependencies {
+    compile project(':config')
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-logging'
+    compile 'org.springframework.boot:spring-boot-starter-validation'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'javax.inject:javax.inject'
+    compile 'com.google.guava:guava'
+    compile 'commons-validator:commons-validator'
+    compile 'org.projectlombok:lombok'
+    compile 'com.google.errorprone:error_prone_core'
+}

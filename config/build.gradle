@@ -1,0 +1,6 @@
+description = ''
+dependencies {
+    compile 'javax.inject:javax.inject'
+    compile 'org.springframework:spring-beans'
+    compile 'org.projectlombok:lombok'
+}

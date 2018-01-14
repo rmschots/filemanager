@@ -1,0 +1,8 @@
+
+description = ''
+dependencies {
+  compile project(':service')
+  compile project(':infrastructure')
+  compile 'org.springframework:spring-web'
+  compile 'org.springframework.security.oauth:spring-security-oauth2'
+}

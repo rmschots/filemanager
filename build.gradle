@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE'
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.4.RELEASE"
+    id 'java'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group = 'be.rmangels.filemanager'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    apply plugin: 'groovy'
+    apply plugin: 'io.spring.dependency-management'
+
+    afterEvaluate {
+        dependencyManagement {
+            imports {
+                mavenBom 'io.spring.platform:platform-bom:Brussels-SR5'
+            }
+            dependencies {
+                dependency 'com.google.errorprone:error_prone_core:2.1.2'
+                dependency 'commons-validator:commons-validator:1.6'
+                dependency 'org.projectlombok:lombok:1.16.16'
+                dependency 'org.webjars:js-cookie:2.1.0'
+                dependency 'javax.inject:javax.inject:1'
+            }
+        }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+jar {
+    baseName = 'filemanager'
+    version =  '0.1.0'
+}
+
+repositories {
+    jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+

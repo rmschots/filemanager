@@ -1,0 +1,9 @@
+description = ''
+dependencies {
+    compile project(':infrastructure')
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.webjars:js-cookie'
+    compile 'org.springframework.boot:spring-boot-configuration-processor'
+}

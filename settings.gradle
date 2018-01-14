@@ -1,0 +1,18 @@
+rootProject.name = 'filemanager'
+include ':ui'
+include ':service'
+include ':infrastructure'
+include ':jar'
+include ':api'
+include ':security'
+include ':config'
+include ':test-config'
+
+project(':ui').projectDir = "$rootDir/ui" as File
+project(':service').projectDir = "$rootDir/service" as File
+project(':infrastructure').projectDir = "$rootDir/infrastructure" as File
+project(':jar').projectDir = "$rootDir/jar" as File
+project(':api').projectDir = "$rootDir/api" as File
+project(':security').projectDir = "$rootDir/security" as File
+project(':config').projectDir = "$rootDir/config" as File
+project(':test-config').projectDir = "$rootDir/test-config" as File
