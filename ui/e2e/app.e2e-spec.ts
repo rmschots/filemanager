@@ -7,8 +7,11 @@ describe('smartsoftware-filemanager App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('doshit', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getParagraphText()).toEqual('File Manager');
+    page.login().then(() => {
+      console.log('fsdq');
+    });
   });
 });

@@ -6,6 +6,10 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('fm-root .home-text')).getText();
+  }
+
+  login() {
+    return element(by.id('google-login-link')).click();
   }
 }

@@ -1,2 +1,101 @@
+import java.util.concurrent.CountDownLatch
 
 description = ''
+dependencies {
+  testCompile project(':jar')
+}
+
+def appBackend
+
+apply plugin: 'com.moowork.node'
+
+node {
+  version = '6.11.0'
+  download = true
+}
+
+task copyProjectJars {
+  doLast {
+    File explodedDist = mkdir("$buildDir/")
+    def archiveTask = rootProject
+      .subprojects.find {project -> project.name == 'jar' }
+      .tasks.withType(Jar).findByName('jar')
+    copy {
+      from archiveTask.archivePath
+      into explodedDist
+    }
+  }
+}
+
+task copyConfig {
+  doLast {
+    File explodedDist = mkdir("$buildDir/")
+    copy {
+      from "../test-config/src/main/resources"
+      into explodedDist
+      include('application-dev.yml')
+      rename ('application-dev.yml', 'application.yml')
+    }
+  }
+}
+
+def defaultEnvironment() {
+  def environment = ["PATH=${System.getenv('PATH')}"]
+  return environment
+}
+
+def execAsync(command, printStdOutput, environment, dir, expectedOutput) {
+  logger.lifecycle "Starting async command $command"
+
+  final CountDownLatch condition = new CountDownLatch(1)
+
+  def commandEnvironment = defaultEnvironment() + environment as List
+  logger.lifecycle "environment: $commandEnvironment"
+  println(dir)
+
+  def proc = command.execute(commandEnvironment, new File(dir as String))
+  Thread.start {
+    try {
+      proc.in.eachLine { line ->
+        if (printStdOutput) {
+          println "$line"
+        }
+        if (expectedOutput != null && line?.contains(expectedOutput)) {
+          condition.countDown()
+        }
+      }
+    }
+    catch (ignored) {}
+  }
+  Thread.start {
+    try {
+      proc.err.eachLine { line ->
+        if (printStdOutput) {
+          println line
+        }
+      }
+    }
+    catch (ignored) {}
+  }
+  return [proc, expectedOutput != null ? condition : null]
+}
+
+task runE2E(type: NpmTask, dependsOn: 'npmInstall') {
+  // install the express package only
+  args = ['run', 'ng', 'e2e']
+}
+
+
+task e2eTests(dependsOn: [copyProjectJars, copyConfig]) {
+  doLast {
+    def condBackend
+    (appBackend, condBackend) = execAsync(["java", "-jar", "$buildDir/jar-1.0-SNAPSHOT.jar", "--spring.profiles.active=dev", "-Djava.io.tmpdir=C:\\temp"], true, [], "$buildDir", "Started Application")
+    condBackend.await()
+    runE2E.exec()
+  }
+}
+
+task stopProcesses << {
+  appBackend?.destroy()
+}
+e2eTests.finalizedBy stopProcesses

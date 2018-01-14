@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.run.BootRunTask
+
 description = ''
 dependencies {
     compile project(':infrastructure')
