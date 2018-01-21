@@ -34,7 +34,7 @@ export class ExplorerComponent extends Unsubscribable implements OnInit {
       .subscribe(params => {
         const dirParams = params['dir'];
         if (dirParams) {
-          this.parentDirs = JSON.parse(params['dir']);
+          this.parentDirs = JSON.parse(dirParams);
         } else {
           this.parentDirs = [];
         }

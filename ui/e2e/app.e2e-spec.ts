@@ -9,9 +9,12 @@ describe('smartsoftware-filemanager App', () => {
 
   it('doshit', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('File Manager');
-    page.login().then(() => {
-      console.log('fsdq');
-    });
+    expect(page.getParagraphText()).toEqual('File Manager').then(
+      () => {
+        page.login().then(() => {
+          console.log('fsdq');
+        });
+      }
+    );
   });
 });

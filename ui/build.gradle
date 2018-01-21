@@ -18,7 +18,7 @@ task copyProjectJars {
   doLast {
     File explodedDist = mkdir("$buildDir/")
     def archiveTask = rootProject
-      .subprojects.find {project -> project.name == 'jar' }
+      .subprojects.find { project -> project.name == 'jar' }
       .tasks.withType(Jar).findByName('jar')
     copy {
       from archiveTask.archivePath
@@ -34,7 +34,7 @@ task copyConfig {
       from "../test-config/src/main/resources"
       into explodedDist
       include('application-dev.yml')
-      rename ('application-dev.yml', 'application.yml')
+      rename('application-dev.yml', 'application.yml')
     }
   }
 }
@@ -65,7 +65,8 @@ def execAsync(command, printStdOutput, environment, dir, expectedOutput) {
         }
       }
     }
-    catch (ignored) {}
+    catch (ignored) {
+    }
   }
   Thread.start {
     try {
@@ -75,7 +76,8 @@ def execAsync(command, printStdOutput, environment, dir, expectedOutput) {
         }
       }
     }
-    catch (ignored) {}
+    catch (ignored) {
+    }
   }
   return [proc, expectedOutput != null ? condition : null]
 }
@@ -95,7 +97,9 @@ task e2eTests(dependsOn: [copyProjectJars, copyConfig]) {
   }
 }
 
-task stopProcesses << {
-  appBackend?.destroy()
+task stopProcesses {
+  doLast {
+    appBackend?.destroy()
+  }
 }
 e2eTests.finalizedBy stopProcesses

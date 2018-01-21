@@ -16,16 +16,6 @@ import { DownloadConfirmComponent } from './components/download-confirm/download
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import { LoggedInGuard } from './guards/logged-in.guard';
-
-
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/combineLatest';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/switchMap';
 import { UserService } from './services/user.service';
 
 const MATERIAL_IMPORTS = [
